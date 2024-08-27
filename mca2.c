@@ -1,5 +1,6 @@
 /*
  * Nome: Manuela Cavalcanti
+ * Turma: CC 3A - 2024.2
  * Email: mca2@cesar.school
  * Data de Criação: 24/08/2024
  * 
@@ -7,7 +8,8 @@
  *  - 24/08/2024 11:00: Criado o arquivo e repositório git
  *  - 24/08/2024 13:30: Implementação da Questão 01 finalizada e commit no github
  * '- 24/08/2024 19;40: Implementação da Questão 02 e commit no github
- *    26/08/2024 14:30 - 17:10: Implementação da Questão 03 e commit no github
+ *  - 26/08/2024 14:30 - 17:10: Implementação da Questão 03 e commit no github
+ * -  26/08/2024 22:00: Ajustes finais da didática para manter o padrão entre funções.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,12 +28,12 @@ void complementoADois(double numero, int *bin, int *i){
         conversao[16 - *i + j] = bin[j];
     }
 
-    printf("\nPasso 1: Inverter os bits para obter o complemento a um.\n");
+    printf("\nPasso 3: Inverter os bits para obter o complemento a um.\n");
     for (int j = 0; j < 16; j++) {
         conversao[j] = conversao[j] == 0 ? 1 : 0;
     }
 
-    printf("\nPasso 2: Adicionar 1 para obter o complemento a dois.\n");
+    printf("\nPasso 4: Adicionar 1 para obter o complemento a dois.\n");
     for (int l = 15; l >= 0; l--) {
         if (conversao[l] == 1 && soma == 1) {
             conversao[l] = 0;
@@ -42,7 +44,7 @@ void complementoADois(double numero, int *bin, int *i){
         }
     }
 
-    printf("Resultado: \n");
+    printf("%.1f em complemento a dois =  ", numero);
     for (int k = 0; k < 16; k++) {
         printf("%d", conversao[k]);
     }
@@ -50,11 +52,14 @@ void complementoADois(double numero, int *bin, int *i){
 }
 
 void baseDois(double numero, int *i, int *bin, int resultado) {
-    printf("Passo 1: Converter a parte inteira do numero para binario.\n");
+    printf("Passo 1: Converter a parte inteira do numero para binario.\n\n");
     
     while (resultado != 0) {
+        printf("Dividindo %d por 2:\n", resultado);
         bin[*i] = resultado % 2;
+        printf("Resto = %d\n", bin[*i]);
         resultado = resultado / 2;
+        printf("Quociente = %d\n\n", resultado);
         (*i)++;
     }
 
@@ -69,7 +74,7 @@ void baseDois(double numero, int *i, int *bin, int resultado) {
             printf("%d", bin[j]);
         }
     } 
-    printf("\n");
+    printf("\n\n");
 
     printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
     for (int j = 0; j < (*i) / 2; j++) {
@@ -91,7 +96,7 @@ void baseDois(double numero, int *i, int *bin, int resultado) {
             printf("%d", bin[k]);
         }
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 void Octal(double numero,int i, int *bin, int resultado){
@@ -99,9 +104,11 @@ void Octal(double numero,int i, int *bin, int resultado){
     printf("Passo 1: Converter a parte inteira do numero para base 8.\n");
 
     while (resultado != 0) {
+        printf("Dividindo %d por 8:\n", resultado);
         bin[i] = resultado % 8;
-        printf("Dividindo %d por 8", resultado);
+        printf("Resto = %d\n", bin[i]);
         resultado = resultado / 8;
+        printf("Quociente = %d\n\n", resultado);
         i++;
     }
 
@@ -109,7 +116,7 @@ void Octal(double numero,int i, int *bin, int resultado){
     for (int j = 0; j < i; j++) {
         printf("%d", bin[j]);
     }
-    printf("\n");
+    printf("\n\n");
 
     printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
     for (int j = 0; j < i / 2; j++) {
@@ -133,8 +140,11 @@ void Hexa(double numero, int i, int *bin, int resultado) {
     printf("Passo 1: Converter a parte inteira do numero para base 16.\n");
 
     while (resultado != 0) {
+        printf("Dividindo %d por 16:\n", resultado);
         bin[i] = resultado % 16;
+        printf("Resto = %d\n", bin[i]);
         resultado = resultado / 16;
+        printf("Quociente = %d\n\n", resultado);
         i++;
     }
 
@@ -142,7 +152,7 @@ void Hexa(double numero, int i, int *bin, int resultado) {
     for (int j = 0; j < i; j++) {
         printf("%d", bin[j]); 
     }
-    printf("\n");
+    printf("\n\n");
 
     printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
     for (int j = 0; j < i / 2; j++) {
@@ -187,7 +197,7 @@ void codigoBcd(double numero){
 
     printf("Digitos separados: ");
     for (int j = 0; j < i; j++) {
-        printf("%.1f ", split[j]);
+        printf("%d\n", split[j]);
     }
     printf("\n");
     printf("Passo 2: Inverter os digitos para obter a representacao correta.\n");
@@ -261,8 +271,11 @@ void conversaoFloat(double numero, int *i, int *bin, int resultado) {
     printf("\nPasso 4: Converter a parte inteira do numero para binario.\n");
 
     while (resultado != 0) {
+        printf("Dividindo %d por 2:\n", resultado);
         bin[*i] = resultado % 2;
+        printf("Resto = %d\n", bin[*i]);
         resultado = resultado / 2;
+        printf("Quociente = %d\n\n", resultado);
         (*i)++;
     }
 
@@ -313,7 +326,7 @@ void conversaoFloat(double numero, int *i, int *bin, int resultado) {
     
     printf("\n");
 
-    printf("Representacao binaria final (IEEE 754 float):\n");
+    printf("Representacao binaria final (IEEE 754 float) = ");
     printf("%d ", sinal); 
     for (int j = 7; j >= 0; j--) {
         printf("%d", (expoente_com_vies >> j) & 1); 
@@ -381,8 +394,11 @@ void conversaoDouble(double numero, int *i, int *bin, int resultado) {
     printf("\nPasso 4: Converter a parte inteira do numero para binario.\n");
 
     while (resultado != 0) {
+        printf("Dividindo %d por 2:\n", resultado);
         bin[*i] = resultado % 2;
+        printf("Resto = %d\n", bin[*i]);
         resultado = resultado / 2;
+        printf("Quociente = %d\n\n", resultado);
         (*i)++;
     }
 
@@ -475,10 +491,12 @@ int main() {
     printf("3 - Converter decimal para base 16\n");
     printf("4 - Converter decimal para codigo BCD\n");
     printf("5 - Complemento a dois com 16 bits\n");
-    printf("6 - Conversao para float\n");
-    printf("7 - Conversao para double\n");
-    printf("\nDigite a opcao de conversao: ");
+    printf("6 - Converter para float\n");
+    printf("7 - Converter para double\n");
+    printf("\n\nDigite a opcao de conversao: ");
     scanf("%d", &opcao);
+    system("cls");
+    
 
     if (opcao == 1){
         baseDois(numero, &i, bin, resultado);
