@@ -7,6 +7,7 @@
  *  - 24/08/2024 11:00: Criado o arquivo e repositório git
  *  - 24/08/2024 13:30: Implementação da Questão 01 finalizada e commit no github
  * '- 24/08/2024 19;40: Implementação da Questão 02 e commit no github
+ *    26/08/2024 14:30 - 17:10: Implementação da Questão 03 e commit no github
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,119 +15,151 @@
 
 
 void complementoADois(double numero, int *bin, int *i){
-    int conversao[16];
+  int conversao[16];
     int soma = 1;
-   
-    for (int j = 0; j < 16 - *i; j++){
+
+    for (int j = 0; j < 16 - *i; j++) {
         conversao[j] = 0;
     }
-    for (int j = 0; j < *i; j++){
+    
+    for (int j = 0; j < *i; j++) {
         conversao[16 - *i + j] = bin[j];
     }
 
-    printf("\n%.1f em complemento a dois = ", numero);    
-
-    if (((*i) + 1) == 16){
-        for (int k = 0; k < (*i); k++){
-            printf("%d", bin[k]);
-        }   
+    printf("\nPasso 1: Inverter os bits para obter o complemento a um.\n");
+    for (int j = 0; j < 16; j++) {
+        conversao[j] = conversao[j] == 0 ? 1 : 0;
     }
-    else{
-        for (int j = 0; j < 16; j++){
-            if (conversao[j] == 0){
-                conversao[j] = 1;
-            }
-            else{
-                conversao[j] = 0;
-            }
-        }
 
-        for (int l = 0; l < 16; l++){
-            if ((conversao[16 - l - 1] + soma) == 2){
-                conversao[16 - l - 1] = 0;
-                soma = 1;
-            }
-            else if ((conversao[16 - l - 1] + soma) == 1){
-                conversao[16 - l - 1] = 1;
-                soma = 0;
-            }
-            else{
-                break;
-            }
+    printf("\nPasso 2: Adicionar 1 para obter o complemento a dois.\n");
+    for (int l = 15; l >= 0; l--) {
+        if (conversao[l] == 1 && soma == 1) {
+            conversao[l] = 0;
+            soma = 1; 
+        } else {
+            conversao[l] += soma;
+            soma = 0;
         }
-
-        for (int k = 0; k < 16; k++){
-            printf("%d", conversao[k]);
-        }      
     }
+
+    printf("Resultado: \n");
+    for (int k = 0; k < 16; k++) {
+        printf("%d", conversao[k]);
+    }
+    printf("\n");
 }
-void baseDois(double numero, int *i, int *bin, int resultado){
 
-    while (resultado != 0){   
+void baseDois(double numero, int *i, int *bin, int resultado) {
+    printf("Passo 1: Converter a parte inteira do numero para binario.\n");
+    
+    while (resultado != 0) {
         bin[*i] = resultado % 2;
         resultado = resultado / 2;
         (*i)++;
     }
-    
-    for (int j = 0; j < (*i) / 2; j++){
+
+    printf("Parte inteira em binario (antes de inverter): ");
+    if (numero < 0){
+        for (int j = 0; j < *i; j++) {
+            printf("%d", bin[j] * -1);
+        }
+    }
+    else{
+        for (int j = 0; j < *i; j++) {
+            printf("%d", bin[j]);
+        }
+    } 
+    printf("\n");
+
+    printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
+    for (int j = 0; j < (*i) / 2; j++) {
         int temp = bin[j];
         bin[j] = bin[(*i) - j - 1];
         bin[(*i) - j - 1] = temp;
     }
+
     printf("%.1f em base 2 = ", numero);
-    if (numero == 0){
+    if (numero == 0) {
         printf("0");
     }
-    
-    for (int k = 0; k < (*i); k++){
-        printf("%d", bin[k]);
+    else if(numero < 0){
+        for (int k = 0; k < *i; k++) {
+            printf("%d", bin[k] * (-1));
+        }
+    } else {
+        for (int k = 0; k < *i; k++) {
+            printf("%d", bin[k]);
+        }
     }
+    printf("\n");
 }
 
 void Octal(double numero,int i, int *bin, int resultado){
 
-    while (resultado != 0){   
+    printf("Passo 1: Converter a parte inteira do numero para base 8.\n");
+
+    while (resultado != 0) {
         bin[i] = resultado % 8;
+        printf("Dividindo %d por 8", resultado);
         resultado = resultado / 8;
         i++;
     }
-    
-    for (int j = 0; j < i / 2; j++){
+
+    printf("Parte inteira em base 8 (antes de inverter): ");
+    for (int j = 0; j < i; j++) {
+        printf("%d", bin[j]);
+    }
+    printf("\n");
+
+    printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
+    for (int j = 0; j < i / 2; j++) {
         int temp = bin[j];
         bin[j] = bin[i - j - 1];
         bin[i - j - 1] = temp;
     }
+
     printf("%.1f em base 8 = ", numero);
-    if (numero == 0){
+    if (numero == 0) {
         printf("0");
+    } else {
+        for (int k = 0; k < i; k++) {
+            printf("%d", bin[k]);
+        }
     }
-    
-    for (int k = 0; k < i; k++){
-        printf("%d", bin[k]);
-    }
+    printf("\n");
 }
 
-void Hexa(double numero, int i, int *bin, int resultado){
+void Hexa(double numero, int i, int *bin, int resultado) {
+    printf("Passo 1: Converter a parte inteira do numero para base 16.\n");
 
-    while (resultado != 0){   
+    while (resultado != 0) {
         bin[i] = resultado % 16;
         resultado = resultado / 16;
         i++;
     }
-    
-    for (int j = 0; j < i / 2; j++){
+
+    printf("Parte inteira em base 16 (antes de inverter): ");
+    for (int j = 0; j < i; j++) {
+        printf("%d", bin[j]); 
+    }
+    printf("\n");
+
+    printf("Passo 2: Inverter a parte inteira para obter a representacao correta.\n");
+    for (int j = 0; j < i / 2; j++) {
         int temp = bin[j];
         bin[j] = bin[i - j - 1];
         bin[i - j - 1] = temp;
     }
+
     printf("%.1f em base 16 = ", numero);
-    if (numero == 0){
+    if (numero == 0) {
         printf("0");
+    } else {
+        for (int k = 0; k < i; k++) {
+            printf("%X", bin[k]);
+        }
     }
-    
-    for (int k = 0; k < i; k++){
-        printf("%d", bin[k]);
-    }
+    printf("\n");
 }
 
 void codigoBcd(double numero){
@@ -142,7 +175,7 @@ void codigoBcd(double numero){
         "1000",
         "1001"
     };
-
+    printf("Passo 1: Separar cada digito do numero.\n");
     int split[10];
     int digito = numero;
     int i = 0;
@@ -152,6 +185,12 @@ void codigoBcd(double numero){
         i++;
     }
 
+    printf("Digitos separados: ");
+    for (int j = 0; j < i; j++) {
+        printf("%.1f ", split[j]);
+    }
+    printf("\n");
+    printf("Passo 2: Inverter os digitos para obter a representacao correta.\n");
     for (int j = 0; j < i / 2; j++){
         int temp = split[j];
         split[j] = split[i - j - 1];
