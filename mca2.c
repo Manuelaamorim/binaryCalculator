@@ -13,11 +13,10 @@
 #include <string.h>
 
 
-void complementoADois(int numero, int *bin, int *i){
-    int aux = 16 - ((*i) + 1);
+void complementoADois(double numero, int *bin, int *i){
     int conversao[16];
     int soma = 1;
-
+   
     for (int j = 0; j < 16 - *i; j++){
         conversao[j] = 0;
     }
@@ -25,7 +24,7 @@ void complementoADois(int numero, int *bin, int *i){
         conversao[16 - *i + j] = bin[j];
     }
 
-    printf("\n%d em complemento a dois = ", numero);    
+    printf("\n%.1f em complemento a dois = ", numero);    
 
     if (((*i) + 1) == 16){
         for (int k = 0; k < (*i); k++){
@@ -61,7 +60,7 @@ void complementoADois(int numero, int *bin, int *i){
         }      
     }
 }
-void baseDois(int numero, int *i, int *bin, int resultado){
+void baseDois(double numero, int *i, int *bin, int resultado){
 
     while (resultado != 0){   
         bin[*i] = resultado % 2;
@@ -74,7 +73,7 @@ void baseDois(int numero, int *i, int *bin, int resultado){
         bin[j] = bin[(*i) - j - 1];
         bin[(*i) - j - 1] = temp;
     }
-    printf("%d em base 2 = ", numero);
+    printf("%.1f em base 2 = ", numero);
     if (numero == 0){
         printf("0");
     }
@@ -83,7 +82,9 @@ void baseDois(int numero, int *i, int *bin, int resultado){
         printf("%d", bin[k]);
     }
 }
-void Octal(int numero,int i, int *bin, int resultado){
+
+void Octal(double numero,int i, int *bin, int resultado){
+
     while (resultado != 0){   
         bin[i] = resultado % 8;
         resultado = resultado / 8;
@@ -95,7 +96,7 @@ void Octal(int numero,int i, int *bin, int resultado){
         bin[j] = bin[i - j - 1];
         bin[i - j - 1] = temp;
     }
-    printf("%d em base 8 = ", numero);
+    printf("%.1f em base 8 = ", numero);
     if (numero == 0){
         printf("0");
     }
@@ -104,7 +105,9 @@ void Octal(int numero,int i, int *bin, int resultado){
         printf("%d", bin[k]);
     }
 }
-void Hexa(int numero, int i, int *bin, int resultado){
+
+void Hexa(double numero, int i, int *bin, int resultado){
+
     while (resultado != 0){   
         bin[i] = resultado % 16;
         resultado = resultado / 16;
@@ -116,7 +119,7 @@ void Hexa(int numero, int i, int *bin, int resultado){
         bin[j] = bin[i - j - 1];
         bin[i - j - 1] = temp;
     }
-    printf("%d em base 16 = ", numero);
+    printf("%.1f em base 16 = ", numero);
     if (numero == 0){
         printf("0");
     }
@@ -125,7 +128,8 @@ void Hexa(int numero, int i, int *bin, int resultado){
         printf("%d", bin[k]);
     }
 }
-void codigoBcd(int numero){
+
+void codigoBcd(double numero){
     const char bin[10][4] = {
         "0000",
         "0001",
@@ -138,6 +142,7 @@ void codigoBcd(int numero){
         "1000",
         "1001"
     };
+
     int split[10];
     int digito = numero;
     int i = 0;
@@ -146,13 +151,14 @@ void codigoBcd(int numero){
         digito = digito / 10;
         i++;
     }
+
     for (int j = 0; j < i / 2; j++){
         int temp = split[j];
         split[j] = split[i - j - 1];
         split[i - j - 1] = temp;
     }
     
-    printf("%d em codigo BCD = ", numero);
+    printf("%.1f em codigo BCD = ", numero);
     if (numero == 0){
         printf("0");
     }
@@ -167,23 +173,274 @@ void codigoBcd(int numero){
         }  
     }    
 }
+
+void conversaoFloat(double numero, int *i, int *bin, int resultado) {
+    int parte_inteira;
+    double parte_fracionaria;
+    int armazena_fracao[24] = {0};
+    int k = 0, cont = 1, expoente = 0, sinal;
+
+    if (numero > 0){
+        sinal = 0;
+    }
+    else{
+        sinal = 1;
+    }
+    
+    printf("Passo 1: Determinar o sinal do numero.\n");
+    printf("Numero original: %lf\n", numero);
+    printf("Sinal: %d (0 para positivo, 1 para negativo)\n", sinal);
+
+    if (sinal) {
+        numero = -numero;
+    }
+
+    parte_inteira = (int)numero;
+    parte_fracionaria = numero - parte_inteira;
+
+    printf("\nPasso 2: Separar a parte inteira da parte fracionaria.\n");
+    printf("Parte inteira: %d\n", parte_inteira);
+    printf("Parte fracionaria: %lf\n", parte_fracionaria);
+
+    printf("\nPasso 3: Converter a parte fracionaria para binario.\n");
+
+    while (parte_fracionaria != 0 && cont <= 23) {
+        printf("Multiplicacao: %lf x 2 = ", parte_fracionaria);
+        parte_fracionaria = parte_fracionaria * 2;
+
+        printf("%lf, ", parte_fracionaria);
+        armazena_fracao[k] = (int)parte_fracionaria;
+
+        printf("Parte inteira extraida: %d, ", armazena_fracao[k]);
+        parte_fracionaria = parte_fracionaria - armazena_fracao[k];
+        printf("Nova parte fracionaria: %lf\n", parte_fracionaria);
+
+        k++;
+        cont++;
+    }
+
+    printf("\nPasso 4: Converter a parte inteira do numero para binario.\n");
+
+    while (resultado != 0) {
+        bin[*i] = resultado % 2;
+        resultado = resultado / 2;
+        (*i)++;
+    }
+
+    for (int j = 0; j < (*i) / 2; j++) {
+        int temp = bin[j];
+        bin[j] = bin[(*i) - j - 1];
+        bin[(*i) - j - 1] = temp;
+    }
+
+    printf("Parte inteira em binario (invertida): ");
+
+    for (int j = 0; j < *i; j++) {
+        printf("%d", bin[j]);
+    }
+    printf("\n");
+
+    if (*i > 0) {
+        expoente = (*i) - 1; 
+    } else {
+        printf("\nPasso 5: Calculo de expoente:\n");
+        while (parte_fracionaria < 1 && parte_fracionaria > 0) {
+            parte_fracionaria *= 2;
+            expoente--;
+            printf("Multiplicando a parte fracionaria por 2: %lf, novo expoente: %d\n", parte_fracionaria, expoente);
+        }
+    }
+    printf("Expoente calculado: %d\n", expoente);
+    int expoente_com_vies = expoente + 127;
+    printf("Expoente com vies: %d\n", expoente_com_vies);
+    
+    printf("Mantissa: ");
+    int mantissa_index = 0;
+    
+    for (int j = 1; j < *i; j++) {
+        printf("%d", bin[j]);
+        mantissa_index++;
+    }
+    
+    for (int j = 0; j < k; j++) {
+        printf("%d", armazena_fracao[j]);
+        mantissa_index++;
+    }
+    
+    while (mantissa_index < 23) {
+        printf("0");
+        mantissa_index++;
+    }
+    
+    printf("\n");
+
+    printf("Representacao binaria final (IEEE 754 float):\n");
+    printf("%d ", sinal); 
+    for (int j = 7; j >= 0; j--) {
+        printf("%d", (expoente_com_vies >> j) & 1); 
+    }
+    printf(" ");
+    mantissa_index = 0;  
+    for (int j = 1; j < *i; j++) {  
+        printf("%d", bin[j]);
+        mantissa_index++;
+    }
+    for (int j = 0; j < k; j++) {
+        printf("%d", armazena_fracao[j]);
+        mantissa_index++;
+    }
+    while (mantissa_index < 23) {
+        printf("0");
+        mantissa_index++;
+    }
+    printf("\n");
+}
+
+void conversaoDouble(double numero, int *i, int *bin, int resultado) {
+    int parte_inteira;
+    double parte_fracionaria;
+    int armazena_fracao[53] = {0};
+    int k = 0, cont = 1, expoente = 0, sinal;
+
+    if (numero > 0){
+        sinal = 0;
+    }
+    else{
+        sinal = 1;
+    }
+
+    if (sinal) {
+        numero = -numero;
+    }
+
+    printf("Passo 1: Determinar o sinal do numero.\n");
+    printf("Numero original: %lf\n", numero);
+    printf("Sinal: %d (0 para positivo, 1 para negativo)\n", sinal);
+
+    parte_inteira = (int)numero;
+    parte_fracionaria = numero - parte_inteira;
+
+    printf("\nPasso 2: Separar a parte inteira da parte fracionaria.\n");
+    printf("Parte inteira: %d\n", parte_inteira);
+    printf("Parte fracionaria: %lf\n", parte_fracionaria);
+
+    printf("\nPasso 3: Converter a parte fracionaria para binario.\n");
+    while (parte_fracionaria != 0 && cont <= 52) {
+        printf("Multiplicacao: %lf x 2 = ", parte_fracionaria);
+        parte_fracionaria = parte_fracionaria * 2;
+
+        printf("%lf, ", parte_fracionaria);
+        armazena_fracao[k] = (int)parte_fracionaria;
+
+        printf("Parte inteira extraida: %d, ", armazena_fracao[k]);
+        parte_fracionaria = parte_fracionaria - armazena_fracao[k];
+        printf("Nova parte fracionaria: %lf\n", parte_fracionaria);
+        k++;
+        cont++;
+    }
+
+    printf("\nPasso 4: Converter a parte inteira do numero para binario.\n");
+
+    while (resultado != 0) {
+        bin[*i] = resultado % 2;
+        resultado = resultado / 2;
+        (*i)++;
+    }
+
+    for (int j = 0; j < (*i) / 2; j++) {
+        int temp = bin[j];
+        bin[j] = bin[(*i) - j - 1];
+        bin[(*i) - j - 1] = temp;
+    }
+
+    printf("Parte inteira em binario (invertida): ");
+
+    for (int j = 0; j < *i; j++) {
+        printf("%d", bin[j]);
+    }
+    printf("\n");
+
+    if (*i > 0) {
+        expoente = (*i) - 1; 
+    } else {
+        printf("\nPasso 5: Calculo de expoente:\n");
+        while (parte_fracionaria < 1 && parte_fracionaria > 0) {
+            parte_fracionaria *= 2;
+            expoente--;
+            printf("Multiplicando a parte fracionaria por 2: %lf, novo expoente: %d\n", parte_fracionaria, expoente);
+        }
+    }
+    printf("Expoente calculado: %d\n", expoente);
+
+    int expoente_com_vies = expoente + 1023;
+    printf("Expoente com vies: %d\n", expoente_com_vies);
+
+
+    printf("Mantissa: ");
+    int mantissa_index = 0;
+
+    for (int j = 1; j < *i; j++) {
+        printf("%d", bin[j]);
+        mantissa_index++;
+    }
+
+    for (int j = 0; j < k; j++) {
+        printf("%d", armazena_fracao[j]);
+        mantissa_index++;
+    }
+
+    while (mantissa_index < 52) {
+        printf("0");
+        mantissa_index++;
+    }
+    
+    printf("\n");
+
+    printf("Representacao binaria final (IEEE 754 double):\n");
+    printf("%d ", sinal); 
+    for (int j = 10; j >= 0; j--) {
+        printf("%d", (expoente_com_vies >> j) & 1);  
+    }
+    printf(" ");
+    mantissa_index = 0;  
+    for (int j = 1; j < *i; j++) { 
+        printf("%d", bin[j]);
+        mantissa_index++;
+    }
+    for (int j = 0; j < k; j++) {
+        printf("%d", armazena_fracao[j]);
+        mantissa_index++;
+    }
+    while (mantissa_index < 52) {
+        printf("0");
+        mantissa_index++;
+    }
+    printf("\n");
+}
+
 int main() {
-    int numero;
+
+    double numero;
     int bin[30];
     int i = 0;
     int opcao = 0;
-    printf("======CALCULADORA DE CONVERSAO======\n\n\n");
-    printf("Digite o numero a ser convertido:\n");
-    scanf("%d", &numero);
-    int resultado = numero;
-    printf("\n1 - converter decimal para base 2\n");
-    printf("2 - converter decimal para base 8\n");
-    printf("3 - converter decimal para base 16\n");
-    printf("4 - converter decimal para codigo BCD\n");
-    printf("5 - complemento a dois com 16 bits\n\n");
 
-    printf("Digite a opcao de conversao:\n");
+    printf("======CALCULADORA DE CONVERSAO======\n\n\n");
+    printf("Digite o decimal:\n");
+
+    scanf("%lf", &numero);
+    int resultado = numero;
+
+    printf("1 - Converter decimal para base 2\n");
+    printf("2 - Converter decimal para base 8\n");
+    printf("3 - Converter decimal para base 16\n");
+    printf("4 - Converter decimal para codigo BCD\n");
+    printf("5 - Complemento a dois com 16 bits\n");
+    printf("6 - Conversao para float\n");
+    printf("7 - Conversao para double\n");
+    printf("\nDigite a opcao de conversao: ");
     scanf("%d", &opcao);
+
     if (opcao == 1){
         baseDois(numero, &i, bin, resultado);
     }
@@ -199,5 +456,14 @@ int main() {
     else if(opcao == 5){
         baseDois(numero, &i, bin, resultado);
         complementoADois(numero, bin, &i);
+    }
+    else if(opcao == 6){
+        conversaoFloat(numero, &i, bin, resultado);
+    }
+    else if(opcao == 7){
+        conversaoDouble(numero, &i, bin, resultado);
+    }
+    else{
+        printf("Opção invalida.");
     }
 }
