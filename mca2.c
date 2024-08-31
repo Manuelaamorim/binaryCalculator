@@ -150,7 +150,11 @@ void Hexa(double numero, int i, int *bin, int resultado) {
 
     printf("Parte inteira em base 16 (antes de inverter): ");
     for (int j = 0; j < i; j++) {
-        printf("%d", bin[j]); 
+        if (bin[j] >= 10) {
+            printf("%c", 'A' + (bin[j] - 10)); // Converte 10-15 para A-F
+        } else {
+            printf("%d", bin[j]); 
+        }
     }
     printf("\n\n");
 
@@ -166,7 +170,11 @@ void Hexa(double numero, int i, int *bin, int resultado) {
         printf("0");
     } else {
         for (int k = 0; k < i; k++) {
-            printf("%X", bin[k]);
+            if (bin[k] >= 10) {
+                printf("%c", 'A' + (bin[k] - 10));
+            } else {
+                printf("%d", bin[k]);
+            }
         }
     }
     printf("\n");
