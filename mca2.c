@@ -7,9 +7,10 @@
  * Revisões/Atualizações:
  *  - 24/08/2024 11:00: Criado o arquivo e repositório git
  *  - 24/08/2024 13:30: Implementação da Questão 01 finalizada e commit no github
- * '- 24/08/2024 19;40: Implementação da Questão 02 e commit no github
+ *  - 24/08/2024 19;40: Implementação da Questão 02 e commit no github
  *  - 26/08/2024 14:30 - 17:10: Implementação da Questão 03 e commit no github
- * -  26/08/2024 22:00: Ajustes finais da didática para manter o padrão entre funções.
+ *  - 26/08/2024 22:00: Ajustes finais da didática para manter o padrão entre funções.
+ *  - 30/08/2024 21:30: Alteração funcionalidade hexadecimal para calcular as letras
  */
 #include <stdio.h>
 #include <stdlib.h>
